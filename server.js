@@ -7,46 +7,47 @@ const json = Express.json()
 const actionRouter = new Router()
 const projectRouter = new Router()
 
-const readAll = database => {
-  return async (req, res) => {
-    try {
-      const document = await database.get()
-      if (document) {
-        res.status(200).send(document)
-      } else {
-        res.status(404).send()
-      }
-    } catch (err) { next(err) }
-  }  
+const readAll = database => async (req, res) => {
+  try {
+    const document = await database.get()
+    if (document) {
+      res.status(200).send(document)
+    } else {
+      res.status(404).send()
+    }
+  } catch (err) { next(err) }
+}  
+
+
+const readOne = database => async (req, res) => {
+  const { id } = req.params
+  try {
+    const document = await database.get(id)
+    if (document) {
+      res.status(200).send(document)
+    } else {
+      res.status(404).send({ message: `Document not found with id ${id}` })
+    }
+  } catch (err) { console.log('catching', err); next(err) }
 }
 
-const readOne = database => {
-  return async (req, res) => {
-    const { id } = req.params
-    try {
-      const document = await database.get(id)
-      if (document) {
-        res.status(200).send(document)
-      } else {
-        res.status(404).send({ message: `Document not found with id ${id}` })
-      }
-    } catch (err) { console.log('catching', err); next(err) }
-  }
+
+const create = database => async (req, res, next) => {
+  try {
+    const body = req.body
+    const valid = await validate(database)(body)
+    if (valid) {
+      const document = await database.insert(body)
+      res.status(201).send(document)
+    } else {
+      res.status(400).send({ error: 'Invalid document format. Please refer to the database schema.' })
+    }
+  } catch (err) { next(err) }  
 }
 
-const create = database => {
-  return async (req, res, next) => {
-    try {
-      const body = req.body
-      const valid = await validate(database)(body)
-      if (valid) {
-        const document = await database.insert(body)
-        res.status(201).send(document)
-      } else {
-        res.status(400).send({ error: 'Invalid document format. Please refer to the database schema.' })
-      }
-    } catch (err) { next(err) }  
-  }
+
+const update = database => async (req, res, next) => {
+
 }
 
 const validate = database => body => {
