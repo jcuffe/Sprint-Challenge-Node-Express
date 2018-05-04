@@ -14,24 +14,30 @@ function booleanToint(bool) {
 }
 
 function projectToBody(project) {
-  const result = {
-    ...project,
-    completed: intToBoolean(project.completed),
-  };
+  let result = project
 
-  if (project.actions) {
-    result.actions = project.actions.map(action => ({
-      ...action,
-      completed: intToBoolean(action.completed),
-    }));
+  if (project) {
+    result = {
+      ...project,
+      completed: intToBoolean(project.completed),
+    };
+
+    if (project.actions) {
+      result.actions = project.actions.map(action => ({
+        ...action,
+        completed: intToBoolean(action.completed),
+      }));
+    }
   }
 
   return result;
 }
 
 function actionToBody(action) {
-  return {
+  if (action) {
+    return {
     ...action,
     completed: intToBoolean(action.completed),
-  };
+    }
+  }
 }
