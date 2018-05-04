@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class ProjectsListContainer extends Component {
   state = { projects: [] }
@@ -17,13 +18,13 @@ class ProjectsListContainer extends Component {
 const ProjectsList = ({ projects }) => (
   <div>
     {projects.map(project => (
-      <Project {...project} />
+      <Project {...project} key={project.id} />
     ))}
   </div>  
 )      
 
-const Project = ({ name }) => (
-  <h1>{name}</h1>
+const Project = ({ name, id }) => (
+  <Link to={`/${id}`}><h1>{name}</h1></Link>
 )
 
 export default ProjectsListContainer
