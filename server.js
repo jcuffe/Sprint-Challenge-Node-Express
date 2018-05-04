@@ -1,4 +1,5 @@
 import Express, { Router } from 'express'
+import cors from 'cors'
 import actionModel from './data/helpers/actionModel'
 import projectModel from './data/helpers/projectModel'
 
@@ -130,6 +131,7 @@ const validateProject = async ({ name, description, completed }, updating) => {
 }
 
 app.use(json)
+app.use(cors)
 app.use('/api/actions', actionRouter)
 app.use('/api/projects', projectRouter)
 
