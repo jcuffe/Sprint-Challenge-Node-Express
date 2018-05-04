@@ -131,7 +131,7 @@ const validateProject = async ({ name, description, completed }, updating) => {
 }
 
 app.use(json)
-app.use(cors)
+app.use(cors())
 app.use('/api/actions', actionRouter)
 app.use('/api/projects', projectRouter)
 
