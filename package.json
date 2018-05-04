@@ -1,17 +1,18 @@
 {
   "babel": {
     "presets": [
-      "env"
+      "@babel/preset-env"
     ]
   },
   "scripts": {
-    "babel-node": "babel-node --presets=env",
+    "babel-node": "babel-node --presets=@babel/preset-env",
     "start": "nodemon --exec npm run babel-node -- ./server.js",
     "build": "babel src -d dist"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
+    "@babel/core": "^7.0.0-beta.46",
+    "@babel/node": "^7.0.0-beta.46",
+    "@babel/preset-env": "^7.0.0-beta.46",
     "nodemon": "^1.17.3"
   },
   "dependencies": {
