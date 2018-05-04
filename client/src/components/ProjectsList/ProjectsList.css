@@ -1,0 +1,9 @@
+.projects-list__project-link {
+  text-decoration: none;
+  color: black
+}
+
+.projects-list__project-link:hover {
+  color: #AEAEAE;
+  cursor: pointer
+}

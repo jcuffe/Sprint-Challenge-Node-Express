@@ -1,0 +1,12 @@
+.project-detail__container a {
+  padding: 10px 50px;
+  text-decoration: none;
+  border: 1px solid #AEAEAE;
+  margin: 10px 0
+}
+
+.project-detail__container a:hover {
+  color: white;
+  font-weight: bold;
+  background-color: #AEAEAE;
+}

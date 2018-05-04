@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-
-const containerStyle = {
-  a: {
-    textDecoration: 'none'
-  }
-}
+import './ProjectDetail.css'
 
 class ProjectDetailContainer extends Component {
   state = { project: { actions: [] } }
@@ -25,7 +20,7 @@ class ProjectDetailContainer extends Component {
 }
 
 const ProjectDetail = ({ name, description, actions }) => (
-  <div style={containerStyle}>
+  <div className='project-detail__container'>
     <Link to=''>Home</Link>
     <h1>{name}</h1>
     <p>{description}</p>

@@ -5,8 +5,9 @@ import 'rxjs/ajax'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/pluck'
 import 'rxjs/add/operator/do'
-import ProjectsList from './ProjectsList'
-import ProjectDetail from './ProjectDetail'
+import ProjectsList from '../ProjectsList/ProjectsList'
+import ProjectDetail from '../ProjectDetail/ProjectDetail'
+import './App.css'
 
 const projects$ = Observable
   .ajax('http://localhost:5000/api/projects')
@@ -17,17 +18,10 @@ const projectDetail$ = id => Observable
   .map(xhr => xhr.response)
   .do(console.log)
 
-const containerStyle = {
-  padding: 20,
-  width: 800,
-  backgroundColor: '#FDFDFD',
-  border: '1px solid #AEAEAE'
-}
-
 class App extends Component {
   render() {
     return (
-      <div style={containerStyle}>
+      <div className='app__container'>
         <Route exact path='/' render={() => (
           <ProjectsList projects$={projects$} />
         )} />
