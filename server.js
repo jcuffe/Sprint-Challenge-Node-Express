@@ -7,7 +7,7 @@ const json = Express.json()
 const actionRouter = new Router()
 const projectRouter = new Router()
 
-const readAll = database => async (req, res) => {
+const readAll = database => async (req, res, next) => {
   try {
     const document = await database.get()
     if (document) {
@@ -19,7 +19,7 @@ const readAll = database => async (req, res) => {
 }  
 
 
-const readOne = database => async (req, res) => {
+const readOne = database => async (req, res, next) => {
   const { id } = req.params
   try {
     const document = await database.get(id)
@@ -34,7 +34,7 @@ const readOne = database => async (req, res) => {
 
 const create = database => async (req, res, next) => {
   try {
-    const body = req.body
+    const { body } = req
     const valid = await validate(database)(body)
     if (valid) {
       const document = await database.insert(body)
@@ -47,28 +47,36 @@ const create = database => async (req, res, next) => {
 
 
 const update = database => async (req, res, next) => {
-
+  const { id } = req.params
+  const { body } = req
+  try {
+    const valid = await validate(database)(body)
+  } catch (err) { next(err) }
 }
 
-const validate = database => body => {
+const validate = (database, updating = false) => body => {
   if (database === actionModel) {
-    return validateAction(body)
+    return validateAction(body, updating)
   } else {
-    return validateProject(body)
+    return validateProject(body, updating)
   }
 }
 
-const validateAction = async ({ project_id, description, notes }) => {
+const validateAction = async ({ project_id, description, notes }, updating) => {
   if (project_id) {
     const project = await projectModel.get(project_id)
-    return project && description && notes
+    return project && (description || notes)
   } else {
-    return false
+    return updating
+      ? description || notes
+      : false
   }
 }
 
-const validateProject = async ({ name, description }) => {
-  return name && description
+const validateProject = async ({ name, description }, updating) => {
+  return updating
+    ? name || description
+    : name && description
 }
 
 app.use(json)

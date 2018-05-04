@@ -16,7 +16,10 @@ module.exports = {
       return actions.map(action => mappers.actionToBody(action));
     });
   },
-  insert: function(action) {
+  insert: function (action) {
+    if (!action.notes) {
+      action.notes = ""
+    }
     return db('actions')
       .insert(action)
       .then(([id]) => this.get(id));
