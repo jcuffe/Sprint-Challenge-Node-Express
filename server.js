@@ -66,7 +66,7 @@ const remove = database => async (req, res, next) => {
     const document = await database.get(id)
     const result = await database.remove(id)
     if (document && result > 0) {
-      
+      res.status(200).send(document)
     }
   } catch (err) { next(err) }
 }
