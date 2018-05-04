@@ -71,6 +71,21 @@ const remove = database => async (req, res, next) => {
   } catch (err) { next(err) }
 }
 
+const readActionsForProject = async (req, res, next) => {
+  const { id } = req.params
+  try {
+    const document = await projectModel.get(id)
+    if (document) {
+      const { actions } = document
+      if (actions.length > 0) {
+        res.status(200).send(actions)
+      } else {
+        res.status(404).send({ error: `Project with id ${id} has no associated actions` })
+      }
+    }
+  } catch (err) { next(err) }
+}
+
 const validate = (database, updating = false) => body => {
   if (database === actionModel) {
     return validateAction(body, updating)
@@ -129,6 +144,7 @@ projectRouter.get('/:id', readOne(projectModel))
 projectRouter.post('/', create(projectModel))
 projectRouter.put('/:id', update(projectModel))
 projectRouter.delete('/:id', remove(projectModel))
+projectRouter.get('/:id/actions', readActionsForProject), 
 
 // Catch-all error handler
 app.use((err, req, res, next) => {
